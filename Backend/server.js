@@ -20,10 +20,11 @@ const __dirname = path.dirname(__filename);
 // Middleware
 app.use(cors());
 // app.use(cors({
-//     origin: 'https://your-netlify-site.netlify.app', // your frontend domain
+//     origin: 'https://luminous-unicorn-e8d5d1.netlify.app/', // your frontend domain
 //     credentials: true
 //   }));
 app.use(express.json());
+
 
 // ✅ Static file serving for uploaded images/docs
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
