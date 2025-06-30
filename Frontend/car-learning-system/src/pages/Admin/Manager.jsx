@@ -3,23 +3,29 @@ import axios from "axios";
 import AdminSidebar from "../../components/Sidebars/AdminSidebar";
 import { getUser } from "../../utils/authUtils";
 
-const FileViewer = ({ label, fileUrl }) => (
-  <div>
-    <p className="font-medium">{label}:</p>
-    {fileUrl ? (
-      <a
-        href={fileUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-indigo-600 hover:underline"
-      >
-        View {label}
-      </a>
-    ) : (
-      <p className="text-sm text-gray-500">Not provided</p>
-    )}
-  </div>
-);
+const FileViewer = ({ label, fileUrl }) => {
+  const fullUrl = fileUrl?.startsWith("http")
+    ? fileUrl
+    : `${import.meta.env.VITE_API_URL}${fileUrl}`;
+
+  return (
+    <div>
+      <p className="font-medium">{label}:</p>
+      {fileUrl ? (
+        <a
+          href={fullUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-indigo-600 hover:underline"
+        >
+          View {label}
+        </a>
+      ) : (
+        <p className="text-sm text-gray-500">Not provided</p>
+      )}
+    </div>
+  );
+};
 
 const InstructorRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -29,7 +35,9 @@ const InstructorRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/pending-instructors`);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/admin/pending-instructors`
+      );
       setRequests(res.data);
       setLoading(false);
     } catch (error) {
@@ -44,7 +52,9 @@ const InstructorRequests = () => {
 
   const handleApprove = async (id) => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/admin/approve-instructor/${id}`);
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/admin/approve-instructor/${id}`
+      );
       fetchRequests();
       alert("Approved successfully");
     } catch (error) {
@@ -58,7 +68,10 @@ const InstructorRequests = () => {
     if (!reason) return;
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/admin/reject-instructor/${id}`, { reason });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/admin/reject-instructor/${id}`,
+        { reason }
+      );
       fetchRequests();
       alert("Rejected successfully");
     } catch (error) {
@@ -97,7 +110,11 @@ const InstructorRequests = () => {
               >
                 <div className="flex items-center gap-4">
                   <img
-                    src={req.profilePicUrl}
+                    src={
+                      req.profilePicUrl?.startsWith("http")
+                        ? req.profilePicUrl
+                        : `${import.meta.env.VITE_API_URL}${req.profilePicUrl}`
+                    }
                     alt={req.userId?.name}
                     className="w-16 h-16 rounded-full object-cover"
                   />
@@ -116,8 +133,8 @@ const InstructorRequests = () => {
         )}
 
         {isModalOpen && selectedReq && (
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50 transition-all duration-300 overflow-auto">
-            <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl p-6 relative animate-fadeIn">
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 transition-all duration-300 overflow-auto">
+            <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl p-6 relative">
               <button
                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
                 onClick={closeModal}
@@ -126,32 +143,58 @@ const InstructorRequests = () => {
               </button>
               <div className="flex gap-6">
                 <img
-                  src={selectedReq.profilePicUrl}
+                  src={
+                    selectedReq.profilePicUrl?.startsWith("http")
+                      ? selectedReq.profilePicUrl
+                      : `${import.meta.env.VITE_API_URL}${selectedReq.profilePicUrl}`
+                  }
                   alt="Instructor"
                   className="w-24 h-24 rounded-full object-cover"
                 />
                 <div>
-                  <h3 className="text-2xl font-semibold">{selectedReq.userId?.name}</h3>
-                  <p className="text-sm text-gray-600">{selectedReq.userId?.email}</p>
-                  <p className="text-sm text-gray-600">+91 {selectedReq.contactNumber}</p>
+                  <h3 className="text-2xl font-semibold">
+                    {selectedReq.userId?.name}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    {selectedReq.userId?.email}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    +91 {selectedReq.contactNumber}
+                  </p>
                 </div>
               </div>
 
               <div className="mt-6 space-y-4">
-                <FileViewer label="Driving License" fileUrl={selectedReq.licenseFileUrl} />
-                <FileViewer label="Citizen ID" fileUrl={selectedReq.citizenIDFileUrl} />
+                <FileViewer
+                  label="Driving License"
+                  fileUrl={selectedReq.licenseFileUrl}
+                />
+                <FileViewer
+                  label="Citizen ID"
+                  fileUrl={selectedReq.citizenIDFileUrl}
+                />
+
                 <div>
                   <h4 className="font-medium mb-2">Car Details</h4>
-                  <p><strong>Number:</strong> {selectedReq.carNumber}</p>
+                  <p>
+                    <strong>Number:</strong> {selectedReq.carNumber}
+                  </p>
                   {selectedReq.carImageUrl && (
                     <img
-                      src={selectedReq.carImageUrl}
+                      src={
+                        selectedReq.carImageUrl.startsWith("http")
+                          ? selectedReq.carImageUrl
+                          : `${import.meta.env.VITE_API_URL}${selectedReq.carImageUrl}`
+                      }
                       alt="Car"
                       className="w-48 h-auto mt-2 rounded-md shadow"
                     />
                   )}
                   {selectedReq.carPaperworkUrl && (
-                    <FileViewer label="Car Paperwork" fileUrl={selectedReq.carPaperworkUrl} />
+                    <FileViewer
+                      label="Car Paperwork"
+                      fileUrl={selectedReq.carPaperworkUrl}
+                    />
                   )}
                 </div>
               </div>
