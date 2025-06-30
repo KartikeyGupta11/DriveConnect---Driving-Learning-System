@@ -1,0 +1,23 @@
+@keyframes moveCar {
+    0% {
+        transform: translateX(-20px);
+    }
+
+    /* Start slightly left */
+    50% {
+        transform: translateX(25px);
+    }
+
+    /* Move right */
+    100% {
+        transform: translateX(-20px);
+    }
+
+    /* Move back left */
+}
+
+.car-move {
+    display: inline-block;
+    animation: moveCar 3s ease-in-out infinite;
+    /* Smooth loop */
+}
