@@ -10,7 +10,7 @@ export default function ForgotPassword() {
         e.preventDefault();
 
         try {
-            const res = await fetch("http://localhost:5000/api/otp/send-otp", {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/otp/send-otp`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -99,7 +99,7 @@ const CompleteProfile = () => {
       }
 
       const res = await axios.post(
-        "http://localhost:5000/api/instructors/create-request",
+        `${import.meta.env.VITE_API_URL}/instructors/create-request`,
         data
       );
 

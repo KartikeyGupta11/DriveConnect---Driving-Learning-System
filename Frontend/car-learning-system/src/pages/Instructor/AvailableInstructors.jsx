@@ -22,7 +22,7 @@ const AvailableInstructors = () => {
   useEffect(() => {
     const fetchInstructors = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/instructors');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/instructors`);
         console.log("Response:",res.data);
         setInstructors(res.data);
       } catch (error) {

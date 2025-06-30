@@ -29,7 +29,7 @@ const InstructorRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/pending-instructors");
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/pending-instructors`);
       setRequests(res.data);
       setLoading(false);
     } catch (error) {
@@ -44,7 +44,7 @@ const InstructorRequests = () => {
 
   const handleApprove = async (id) => {
     try {
-      await axios.post(`http://localhost:5000/api/admin/approve-instructor/${id}`);
+      await axios.post(`${import.meta.env.VITE_API_URL}/admin/approve-instructor/${id}`);
       fetchRequests();
       alert("Approved successfully");
     } catch (error) {
@@ -58,7 +58,7 @@ const InstructorRequests = () => {
     if (!reason) return;
 
     try {
-      await axios.post(`http://localhost:5000/api/admin/reject-instructor/${id}`, { reason });
+      await axios.post(`${import.meta.env.VITE_API_URL}/admin/reject-instructor/${id}`, { reason });
       fetchRequests();
       alert("Rejected successfully");
     } catch (error) {
