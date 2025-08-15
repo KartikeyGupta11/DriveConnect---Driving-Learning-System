@@ -1,10 +1,13 @@
+// pages/InstructorDashboard.jsx
 import AdminSidebar from '../components/Sidebars/AdminSidebar';
 
-const InstructorDashboard = () => {
+const AdminDashboard = () => {
   return (
-    <div>
-      <AdminSidebar></AdminSidebar>
+    <div className="flex min-h-screen">
+      <AdminSidebar />
+      <div className="flex-1 bg-gray-50"> {/* your main content */}</div>
     </div>
-  )
-}
-export default InstructorDashboard
+  );
+};
+
+export default AdminDashboard;

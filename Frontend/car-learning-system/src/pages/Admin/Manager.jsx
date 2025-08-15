@@ -32,6 +32,7 @@ const InstructorRequests = () => {
   const [loading, setLoading] = useState(true);
   const [selectedReq, setSelectedReq] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const IMAGE_BASE_URL = `${import.meta.env.VITE_IMAGE_URL}/uploads/`;
 
   const fetchRequests = async () => {
     try {
@@ -93,7 +94,7 @@ const InstructorRequests = () => {
   return (
     <div className="flex">
       <AdminSidebar />
-      <div className="ml-64 flex-1 p-6 bg-gray-100 min-h-screen">
+      <div className="flex-1 p-6 bg-gray-100 min-h-screen">
         <h2 className="text-3xl font-semibold mb-6">Instructor Requests</h2>
 
         {loading ? (
@@ -105,7 +106,7 @@ const InstructorRequests = () => {
             {requests.map((req) => (
               <div
                 key={req._id}
-                className="bg-white p-4 rounded-xl shadow-md flex flex-col justify-between cursor-pointer hover:shadow-lg transition"
+                className="bg-white p-4 rounded-xl shadow-md flex flex-col justify-between cursor-pointer hover:shadow-lg transition border border-black"
                 onClick={() => openModal(req)}
               >
                 <div className="flex items-center gap-4">
@@ -116,7 +117,7 @@ const InstructorRequests = () => {
                         : `${import.meta.env.VITE_API_URL}${req.profilePicUrl}`
                     }
                     alt={req.userId?.name}
-                    className="w-16 h-16 rounded-full object-cover"
+                    className="w-16 h-16 rounded-full object-cover border-2 border-black"
                   />
                   <div>
                     <p className="text-lg font-medium">{req.userId?.name}</p>
@@ -133,7 +134,7 @@ const InstructorRequests = () => {
         )}
 
         {isModalOpen && selectedReq && (
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 transition-all duration-300 overflow-auto">
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 transition-all duration-300 overflow-auto animate-fadeIn">
             <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl p-6 relative">
               <button
                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
@@ -175,25 +176,23 @@ const InstructorRequests = () => {
                 />
 
                 <div>
-                  <h4 className="font-medium mb-2">Car Details</h4>
+                  <h4 className="font-medium mb-2">{
+                    selectedReq.vehicleNumber ? "Vehicle Deatils: " : "Instructror Does not have his/her own car..."
+                  }</h4>
                   <p>
-                    <strong>Number:</strong> {selectedReq.carNumber}
+                    {selectedReq.vehicleNumber ? "Number: " + selectedReq.vehicleNumber : ""}
                   </p>
-                  {selectedReq.carImageUrl && (
+                  {selectedReq.vehicleImage && (
                     <img
-                      src={
-                        selectedReq.carImageUrl.startsWith("http")
-                          ? selectedReq.carImageUrl
-                          : `${import.meta.env.VITE_API_URL}${selectedReq.carImageUrl}`
-                      }
+                      src={`${IMAGE_BASE_URL}${selectedReq.vehicleImage}`}
                       alt="Car"
                       className="w-48 h-auto mt-2 rounded-md shadow"
                     />
                   )}
-                  {selectedReq.carPaperworkUrl && (
+                  {selectedReq.vehiclePaperwork && (
                     <FileViewer
                       label="Car Paperwork"
-                      fileUrl={selectedReq.carPaperworkUrl}
+                      fileUrl={selectedReq.vehiclePaperwork}
                     />
                   )}
                 </div>

@@ -7,11 +7,13 @@ import VerifyOTP from "./pages/VerifyOTP";
 import AdminDashboard from "./pages/AdminDashboard";
 import InstructorDashboard from "./pages/InstructorDashboard";
 import Manager from "./pages/Admin/Manager";
+import AllInstructors from "./pages/Admin/AllInstructors";
 
 // Learner Pages
 import GettingStarted from "./pages/Learner/GettingStarted";
 import Courses from "./pages/Learner/Courses";
 import Bookings from "./pages/Learner/Bookings";
+import AvailableBookingSlots from "./pages/Learner/AvailableBookingSlots";
 // import Progress from "./pages/Learner/Progress";
 // You can import more like Tests, History, Certificates, etc. here
 
@@ -22,6 +24,7 @@ import "./index.css";
 // Instructor Pages
 import CompleteProfile from "./pages/Instructor/CompleteProfile";
 
+
 function AppWrapper() {
   const location = useLocation();
 
@@ -29,7 +32,7 @@ function AppWrapper() {
   const hideNavbarRoutes = [
     "/", "/login", "/register", "/forgot-password", "/verify-otp",
     "/learner", "/learner/courses", "/learner/bookings", "/learner/progress",
-    "/instructor", "/admin","/instructor/complete-profile","/admin/manager"
+    "/instructor", "/admin","/instructor/complete-profile","/admin/manager","/learner/available-slots","/admin/instructorList",
   ];
 
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
@@ -51,6 +54,7 @@ function AppWrapper() {
         <Route path="/learner" element={<GettingStarted />} />
         <Route path="/learner/courses" element={<Courses />} />
         <Route path="/learner/bookings" element={<Bookings />} />
+        <Route path="/learner/available-slots" element={<AvailableBookingSlots/>}/>
         {/* <Route path="/learner/progress" element={<Progress />} /> */}
         {/* Add more learner routes like tests, profile, etc. */}
 
@@ -61,7 +65,8 @@ function AppWrapper() {
 
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/manager" element={<Manager/>}></Route>
+        <Route path="/admin/manager" element={<Manager/>} />
+        <Route path="/admin/instructorList" element={<AllInstructors/>}/>
       </Routes>
     </div>
   );

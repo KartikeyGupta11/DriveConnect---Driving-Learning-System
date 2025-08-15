@@ -1,16 +1,26 @@
 import { useNavigate } from "react-router-dom";
+import { Boxes } from "../components/ui/BackgroundBoxes"; // adjust the path if needed
 
 export default function Welcome() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[#f0fdf4] to-[#d9f99d] px-6 py-12 font-sans">
-      <div className="max-w-3xl text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-[#1F2937] leading-tight mb-6">
+    <div className="relative min-h-screen flex flex-col justify-center items-center bg-slate-900 overflow-hidden px-6 py-12 font-sans">
+      {/* Background Animation */}
+      <div className="absolute inset-0 z-0">
+        <Boxes className="opacity-50" /> 
+        {/* Added opacity so it doesn't overpower text */}
+        <div className="absolute inset-0 bg-slate-900 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      </div>
+
+      {/* Foreground Content */}
+      <div className="max-w-3xl text-center relative z-10">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-6">
           Learn Driving with Confidence
         </h1>
-        <p className="text-gray-700 text-lg md:text-xl mb-8">
-          Welcome to our Driving Learning System — a platform where learners, instructors, and admins come together for seamless driving education.
+        <p className="text-neutral-300 text-lg md:text-xl mb-8">
+          Welcome to our Driving Learning System — a platform where learners,
+          instructors, and admins come together for seamless driving education.
         </p>
 
         <div className="flex justify-center gap-4 flex-wrap">
@@ -29,7 +39,7 @@ export default function Welcome() {
           </button>
         </div>
 
-        <div className="mt-12 text-sm text-gray-600 max-w-xl mx-auto">
+        <div className="mt-12 text-sm text-neutral-400 max-w-xl mx-auto">
           <p className="mb-2">
             Whether you’re a <strong>learner</strong> starting your journey,
             an <strong>instructor</strong> managing sessions,
