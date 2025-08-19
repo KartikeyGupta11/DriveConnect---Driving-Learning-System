@@ -1,7 +1,8 @@
 "use client";
 import { NavLink } from "react-router-dom";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   IconArrowLeft,
   IconBrandTabler,
@@ -9,18 +10,18 @@ import {
   IconUserBolt,
   IconChalkboard,
   IconSchool,
-  IconUsers
+  IconUsers,
 } from "@tabler/icons-react";
 import { Sidebar, SidebarBody, useSidebar } from "../ui/Sidebar";
 import { cn } from "../ui/Sidebar";
+import { getUser } from "../../utils/authUtils";
+import AdminUser from "../../assets/User.png";
 
 const links = [
-  // { label: "Getting Started", href: "/admin", icon: <IconBrandTabler className="h-5 w-5 shrink-0" /> },
   { label: "Manager", href: "/admin/manager", icon: <IconUsers className="h-5 w-5 shrink-0" /> },
   { label: "Instructors", href: "/admin/instructorList", icon: <IconChalkboard className="h-5 w-5 shrink-0" /> },
-  { label: "Learners", href: "/instructor/learnersList", icon: <IconSchool className="h-5 w-5 shrink-0" /> },
-  { label: "Settings", href: "/instructor/settings", icon: <IconSettings className="h-5 w-5 shrink-0" /> },
-  { label: "Logout", href: "/logout", icon: <IconArrowLeft className="h-5 w-5 shrink-0" /> }
+  { label: "Learners", href: "/admin/learnerList", icon: <IconSchool className="h-5 w-5 shrink-0" /> },
+  { label: "Logout", href: "/logout", icon: <IconArrowLeft className="h-5 w-5 shrink-0" /> },
 ];
 
 // Link with react-router-dom active styles
@@ -43,7 +44,7 @@ const RouterSidebarLink = ({ link }) => {
       <motion.span
         animate={{
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
-          opacity: animate ? (open ? 1 : 0) : 1
+          opacity: animate ? (open ? 1 : 0) : 1,
         }}
         className="text-sm whitespace-pre inline-block"
       >
@@ -55,10 +56,26 @@ const RouterSidebarLink = ({ link }) => {
 
 export default function AdminSidebar() {
   const [open, setOpen] = useState(false);
+  const [incomplete, setIncomplete] = useState(false);
+
   const user = {
-    name: "Kartikey Gupta",
-    image: "" // replace with user image URL if available
+    name: getUser()?.name,
+    image: "", // replace with user image URL if available
   };
+
+  useEffect(() => {
+    const checkProfile = async (id) => {
+      try {
+        const { data } = await axios.get(`/api/admin/profile/check/profile-completeness-Admin/${id}`, {
+          withCredentials: true,
+        });
+        setIncomplete(!data.complete);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    checkProfile();
+  }, []);
 
   return (
     <Sidebar open={open} setOpen={setOpen}>
@@ -74,22 +91,31 @@ export default function AdminSidebar() {
         </div>
 
         {/* Profile at bottom */}
-        <div className="p-1 border-t border-neutral-700">
+        <div className="p-1 border-t border-neutral-700 relative">
           <NavLink
             to="/admin/profile"
-            className="flex items-center gap-3 hover:bg-neutral-700 rounded-lg"
+            className="flex items-center gap-3"
           >
             {user.image ? (
               <img
                 src={user.image}
                 alt="User"
-                className="h-5 w-5 shrink-0 rounded-full object-cover mt-3"
+                className="h-5 w-5 rounded-full object-cover mt-3"
               />
             ) : (
-              <IconUserBolt className="h-5 w-5 shrink-0 mt-3" />
+              <img
+                src={AdminUser}
+                alt="User"
+                className="h-5 w-5 rounded-full object-cover mt-3"
+              />
             )}
             {open && (
               <span className="text-sm font-semibold mt-4">{user.name}</span>
+            )}
+
+            {/* 🔴 Red Dot Notification */}
+            {incomplete && (
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
             )}
           </NavLink>
         </div>

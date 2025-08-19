@@ -5,8 +5,7 @@ import { getUser } from "../../utils/authUtils";
 const CompleteProfile = () => {
   const steps = ["Personal Info", "Vehicle Info", "Available Slots Info"];
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [transitionClass, setTransitionClass] = useState("");
-
+  const [transitionClass, setTransitionClass] = useState("")
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",

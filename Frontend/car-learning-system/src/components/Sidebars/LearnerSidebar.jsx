@@ -14,7 +14,7 @@ const LearnerSidebar = () => {
     // { path: "/learner/courses", label: "Courses", icon: <FaYoutube /> },
     { path: "/learner/bookings", label: "Bookings", icon: <FaCalendarAlt /> },
     // { path: "/learner/progress", label: "Progress", icon: <FaChartBar /> },
-    { path: "/learner/settings", label: "Settings", icon: <FaCog /> },
+    // { path: "/learner/settings", label: "Settings", icon: <FaCog /> },
     { path: "/learner/support", label: "Help & Support", icon: <FaQuestionCircle /> },
     // { path: "/learner/messages", label: "Messages", icon: <FaQuestionCircle /> },
   ];

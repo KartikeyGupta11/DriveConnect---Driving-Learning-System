@@ -8,6 +8,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import InstructorDashboard from "./pages/InstructorDashboard";
 import Manager from "./pages/Admin/Manager";
 import AllInstructors from "./pages/Admin/AllInstructors";
+import AllLearners from "./pages/Admin/AllLearners";
+import Logout from "./pages/Logout";
 
 // Learner Pages
 import GettingStarted from "./pages/Learner/GettingStarted";
@@ -32,7 +34,8 @@ function AppWrapper() {
   const hideNavbarRoutes = [
     "/", "/login", "/register", "/forgot-password", "/verify-otp",
     "/learner", "/learner/courses", "/learner/bookings", "/learner/progress",
-    "/instructor", "/admin","/instructor/complete-profile","/admin/manager","/learner/available-slots","/admin/instructorList",
+    "/instructor", "/admin","/instructor/complete-profile","/admin/manager","/learner/available-slots","/admin/instructorList","/logout",
+    "/admin/learnerList",
   ];
 
   const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname);
@@ -49,6 +52,7 @@ function AppWrapper() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/logout" element={<Logout/>}/>
 
         {/* Learner Routes */}
         <Route path="/learner" element={<GettingStarted />} />
@@ -67,6 +71,7 @@ function AppWrapper() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/manager" element={<Manager/>} />
         <Route path="/admin/instructorList" element={<AllInstructors/>}/>
+        <Route path="/admin/learnerList" element={<AllLearners/>}/>
       </Routes>
     </div>
   );
