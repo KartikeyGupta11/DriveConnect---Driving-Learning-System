@@ -192,7 +192,7 @@ const InstructorRequests = () => {
                   {selectedReq.vehiclePaperwork && (
                     <FileViewer
                       label="Car Paperwork"
-                      fileUrl={selectedReq.vehiclePaperwork}
+                      fileUrl={`${IMAGE_BASE_URL}${selectedReq.vehiclePaperwork}`}
                     />
                   )}
                 </div>
