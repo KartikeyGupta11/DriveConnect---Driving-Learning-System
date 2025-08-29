@@ -44,7 +44,7 @@ export const register = async (req, res) => {
     await user.save();
 
     res.status(201).json({
-      message: "Registered successfully, wait for admin approval",
+      message: "Registered successfully",
       user: {
         _id: user._id,
         role: user.role,
